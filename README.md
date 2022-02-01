@@ -34,6 +34,10 @@ Both datasets are subsets of the YFCC100M dataset[^2] which are crawled from Fli
 
 Further details: [semantic_partitioning/README.md](semantic_partitioning/README.md)
 
+## Concept Influence
+
+We provide the underlying functionality to compute the presented concept influence metric based on given semantic maps and attribution/explanation maps.
+Please note, that the computation of both semantic maps and explanation maps are not part of this repository.
 
 ***
 ## Requirements
