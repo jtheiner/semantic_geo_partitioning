@@ -30,7 +30,7 @@ See [geo_classification/README.md](geo_classification/README.md) for details.
     
 ## Extended MP-16 Dataset (EMP-16)
 To overcome the need for a full installation of a reverse geocoder such as [Nominatim](https://nominatim.openstreetmap.org/), we provide the postprocessed output of the [reverse geocoding](semantic_partitioning/reverse_geocoding.py) for the MP-16 dataset[^1] along with the validation set (YFCC-Val26k) which originally comprising photos and respective GPS coordinates.
-Both datasets are subsets of the YFCC100M dataset[^1] which are crawled from Flickr.
+Both datasets are subsets of the YFCC100M dataset[^2] which are crawled from Flickr.
 
 Further details: [semantic_partitioning/README.md](semantic_partitioning/README.md)
 
