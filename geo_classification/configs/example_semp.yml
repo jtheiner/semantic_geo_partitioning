@@ -1,0 +1,60 @@
+model_params:
+  arch: resnet50
+  batch_size: 128
+  image_size: 224
+  key_img_encoded: image
+  key_img_id: id
+  msgpack_train_dir: ../data/images/mp16/msgpack
+  msgpack_val_dir: ../data/images/yfcc500k_25600/msgpack
+  num_workers_per_loader: 8
+  optim:
+    params:
+      lr: 0.01
+      momentum: 0.9
+      weight_decay: 0.0001
+  partitionings:
+    # {'m_14371': {'N1000297662': 'N1000297662', ...}, 'm_11252': {...}} map each locaton to its parent location of the next higher partititioning level
+    h_dict: ../data/semantic_partitioning/100-125-250__original_wacv22/h_dict.json
+    files:
+      - ../data/semantic_partitioning/100-125-250__original_wacv22/m_5212.csv
+      - ../data/semantic_partitioning/100-125-250__original_wacv22/m_11252.csv
+      - ../data/semantic_partitioning/100-125-250__original_wacv22/m_14371.csv
+    ptype: semp
+    shortnames:
+    - coarse
+    - middle
+    - fine
+    base_part_kwargs: 
+      skiprows: 0 
+      index_col: class_index # integer
+      col_class_label: class_label # e.g. N1236316
+      col_latitute: latitude_mean # float
+      col_longitude: longitude_mean# float
+  scheduler:
+    params:
+      gamma: 0.5
+      milestones:
+      - 4
+      - 8
+      - 12
+      - 13
+      - 14
+      - 15
+      - 17
+      - 19
+      - 20
+  test: # CSVs with columns ["img_id", latitude, longitude], where img_id is also the image filename, located in the subdirectory 'img' of the CSV folder
+  - meta_info: ../data/images/testsets/im2gps/im2gps_places365.csv
+  - meta_info: ../data/images/testsets/im2gps3k/im2gps3k_places365.csv
+  - meta_info: ../data/images/testsets/YFCC4k/yfcc4k-meta.csv
+  train_label_mapping: ../data/semantic_partitioning/100-125-250__original_wacv22/target_mapping_mp16_train.json # Dict[str: List[int]] -> for each image id a list of class indices
+  val_label_mapping: ../data/semantic_partitioning/100-125-250__original_wacv22/target_mapping_yfcc25600.json # Dict[str: List[int]] -> for each image id a list of class indices
+  val_check_interval: 4000
+  val_meta_path: ../data/images/yfcc25600/meta_yfcc25600.csv # required columns [image_id", "latitude", "longitude"]
+  weights: null
+trainer_params:
+  gpus: 1
+  max_epochs: 20
+  precision: 16
+  reload_dataloaders_every_epoch: true
+  progress_bar_refresh_rate: 0

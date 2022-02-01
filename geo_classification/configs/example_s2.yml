@@ -1,0 +1,58 @@
+model_params:
+  arch: resnet50
+  batch_size: 128
+  image_size: 224
+  key_img_encoded: image
+  key_img_id: id
+  msgpack_train_dir: ../data/images/mp16/msgpack
+  msgpack_val_dir: ../data/images/yfcc500k_25600/msgpack
+  num_workers_per_loader: 8
+  optim:
+    params:
+      lr: 0.01
+      momentum: 0.9
+      weight_decay: 0.0001
+  partitionings:
+    files:
+    - ../data/s2_partitioning/cells_50_5000.csv
+    - ../data/s2_partitioning/cells_50_2000.csv
+    - ../data/s2_partitioning/cells_50_1000.csv
+    ptype: s2
+    shortnames:
+    - coarse
+    - middle
+    - fine
+    base_part_kwargs: 
+      skiprows: 2
+      index_col: class_label # integer
+      col_class_label: hex_id
+      col_latitute: latitude_mean
+      col_longitude: longitude_mean
+  scheduler:
+    params:
+      gamma: 0.5
+      milestones:
+      - 4
+      - 8
+      - 12
+      - 13
+      - 14
+      - 15
+      - 17
+      - 19
+      - 20
+  test: # CSVs with columns ["img_id", latitude, longitude], where img_id is also the image filename, located in the subdirectory 'img' of the CSV folder
+  - meta_info: ../data/images/testsets/im2gps/im2gps_places365.csv
+  - meta_info: ../data/images/testsets/im2gps3k/im2gps3k_places365.csv
+  - meta_info: ../data/images/testsets/YFCC4k/yfcc4k-meta.csv
+  train_label_mapping: ../data/s2_partitioning/h3_train_mp16.json # Dict[str: List[int]] -> for each image id a list of class indices
+  val_label_mapping: ../data/s2_partitioning/h3_valid_yfcc500k_25600.json
+  val_meta_path: ../data/images/yfcc25600/meta_yfcc25600.csv # required columns [image_id", "latitude", "longitude"]
+  val_check_interval: 4000
+  weights: null
+trainer_params:
+  gpus: 1
+  max_epochs: 20
+  precision: 16
+  reload_dataloaders_every_epoch: true
+  progress_bar_refresh_rate: 0

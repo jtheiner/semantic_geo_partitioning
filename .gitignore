@@ -4,6 +4,8 @@ data/*
 *.sh
 *.log
 *.txt
+*.yml
+configs/
 
 .vscode
 
