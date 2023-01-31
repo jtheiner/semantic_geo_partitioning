@@ -23,8 +23,7 @@ See [semantic_partitioning/README.md](semantic_partitioning/README.md) for detai
 Subpackage `geo_classification` contains:
 - [x] script to train from scratch
 - [x] evaluation pipeline including testsets
-- [ ] prediction / inference jupyter notebook
-- [ ] pretrained models (ResNet-50 and EfficientNet-B4):
+- [x] pretrained models (EfficientNet-B4):
 
 See [geo_classification/README.md](geo_classification/README.md) for details.
     
