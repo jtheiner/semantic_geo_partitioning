@@ -12,20 +12,10 @@ This repository contains a re-implementation of our paper [Interpretable Semanti
 
 ## Semantic Partitioning (SemP)
 
-Subpackage `semantic_partitioning` contains:
-- [x] script for reverse geocoding
-- [x] raw dataset visualization
-- [ ] scripts to construct the *semantic partitioning* (SemP)
-
-See [semantic_partitioning/README.md](semantic_partitioning/README.md) for details.
+Subpackage [`semantic_partitioning`](semantic_partitioning/README.md) contains a script for reverse geocoding and raw dataset visualization.
 
 ## Classification
-Subpackage `geo_classification` contains:
-- [x] script to train from scratch
-- [x] evaluation pipeline including testsets
-- [x] pretrained models (EfficientNet-B4):
-
-See [geo_classification/README.md](geo_classification/README.md) for details.
+Subpackage [`geo_classification`](geo_classification/README.md) contains a script to optimization the model from scratch and an evaluation pipeline including the prepratation of testsets.
     
 ## Extended MP-16 Dataset (EMP-16)
 To overcome the need for a full installation of a reverse geocoder such as [Nominatim](https://nominatim.openstreetmap.org/), we provide the postprocessed output of the [reverse geocoding](semantic_partitioning/reverse_geocoding.py) for the MP-16 dataset[^1] along with the validation set (YFCC-Val26k) which originally comprising photos and respective GPS coordinates.
@@ -35,7 +25,7 @@ Further details: [semantic_partitioning/README.md](semantic_partitioning/README.
 
 ## Concept Influence
 
-We provide the underlying functionality to compute the presented concept influence metric based on given semantic maps and attribution/explanation maps.
+We provide the underlying functionality to compute the presented [`concept_influence`](concept_influence) metric based on given semantic maps and attribution/explanation maps.
 Please note, that the computation of both semantic maps and explanation maps are not part of this repository.
 
 ***

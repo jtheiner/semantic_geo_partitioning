@@ -88,17 +88,3 @@ df_dataset = pd.read_json("../data/semantic_partitioning/reverse_geocoding/meta_
 # metadata for each location including the geometry if available and its centroid
 gdf_locations = gpd.read_feather("../data/semantic_partitioning/reverse_geocoding/locations_meta_mp16_train-min_50.feather)
 ```
-
-# Semantic Partitioning Construction
-
-## Create Base Hierarchy
-
-```sh
-# TODO
-```
-
-## Create Single and Multi Partitioning
-
-```sh
-# TODO
-```

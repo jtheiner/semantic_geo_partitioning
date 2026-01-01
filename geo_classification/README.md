@@ -1,30 +1,21 @@
 
 # Classification
 
+## Optimization from Scratch
+
+See example config files for model and training details.
+```sh
+# supports pytorch lightning trainer flags
+python train.py --config configs/example_s2.yml # baseline: s2(M, f*)
+python train.py --config configs/example_semp.yml # SemP({100, 125, 250})
+```
+
 ## Test on Already Trained Models
 
-### Download Pretrained Models
-
-We provide the EfficientNet-B4 checkpoints for the reproduced s2(M,f*) and our *SemP(100,125,250, f)* variants including the respective partitioning and class mapping to the training data:
-```sh
-export dl_path="data/wacv22_checkpoints_efficientnet"
-mkdir -p $dl_path/semp_100_125_250
-wget https://tib.eu/cloud/s/F5o6MP7y7AbLSpi/download/semp_100_125_250.zip -O $dl_path/semp_100_125_250.zip
-unzip $dl_path/s2.zip -d $dl_path/semp_100_125_250/
-
-mkdir -p $dl_path/s2
-wget https://tib.eu/cloud/s/4EYyook2nm6EsNQ/download/s2.zip -O $dl_path/s2.zip
-unzip $dl_path/s2.zip -d $dl_path/s2/
-```
+After training these two models from scratch, you should receive results similar to the table below.
 
 ### Results
 
-```
-export baseckpt="data/wacv22_checkpoints_efficientnet/s2"
-python geo_classification/evaluate_testsets.py --config $baseckpt/hparams.yaml --checkpoint $baseckpt/base.ckpt
-export baseckpt="data/wacv22_checkpoints_efficientnet/semp_100_125_250"
-python geo_classification/evaluate_testsets.py --config $baseckpt/hparams.yaml --checkpoint $baseckpt/base.ckpt
-```
 
 |         testset         | checkpoint   |   acc@1km |   acc@25km |   acc@200km |   acc@750km |   acc@2500km |
 |-------------------------|--------------|-----------|------------|-------------|-------------|--------------|
@@ -35,9 +26,31 @@ python geo_classification/evaluate_testsets.py --config $baseckpt/hparams.yaml -
 | yfcc4k   | SemP({100, 125, 250}, f)    |     9.4  |     20.3 |      30.5 |      44.8 |       61.3 |
 | yfcc4k   | s2(M, f*)                   |     7.5  |     19.7 |      28.5 |      42.5 |       59.1 |
 
+```sh
+export baseckpt="data/wacv22_checkpoints_efficientnet/s2"
+python geo_classification/evaluate_testsets.py --config $baseckpt/hparams.yaml --checkpoint $baseckpt/base.ckpt
+export baseckpt="data/wacv22_checkpoints_efficientnet/semp_100_125_250"
+python geo_classification/evaluate_testsets.py --config $baseckpt/hparams.yaml --checkpoint $baseckpt/base.ckpt
+```
 
+### Download Pretrained Models
 
-### Official Testsets
+> We decided to delete our models due to ethical concerns.
+See https://github.com/TIBHannover/GeoEstimation?tab=readme-ov-file#news
+
+We provide the EfficientNet-B4 checkpoints for the reproduced s2(M,f*) and our *SemP(100,125,250, f)* variants including the respective partitioning and class mapping to the training data:
+```sh
+export dl_path="data/wacv22_checkpoints_efficientnet"
+mkdir -p $dl_path/semp_100_125_250
+# wget https://tib.eu/cloud/s/xxxxxxxx/download/semp_100_125_250.zip -O $dl_path/semp_100_125_250.zip
+unzip $dl_path/s2.zip -d $dl_path/semp_100_125_250/
+
+mkdir -p $dl_path/s2
+# wget https://tib.eu/cloud/s/xxxxxxxxx/download/s2.zip -O $dl_path/s2.zip
+unzip $dl_path/s2.zip -d $dl_path/s2/
+```
+
+## Testsets Prepratation
 Download and prepare testsets (Im2GPS, Im2GPS3k, YFCC4k):
 
 ```sh
@@ -54,7 +67,7 @@ unzip im2gps/im2gps.zip -d .im2gps/img
 ```
 Im2GPS3k and YFCC4k according to the instructons in https://github.com/lugiavn/revisiting-im2gps/
 
-### Evaluation
+## Evaluation
 
 By default all testsets are evaluated according to the respective `hparams.yaml` of a model checkpoint using:
 ```sh
@@ -78,12 +91,3 @@ In general, the training dataloader supplies a batch of images and a list of ten
 We use same format as in [https://github.com/TIBHannover/GeoEstimation#Training-from-Scratch](https://github.com/TIBHannover/GeoEstimation#Training-from-Scratch) to store and load the image data and subsequently join additionally required information as class indices or coordinates in [MsgPackIterableDatasetMultiTargetWithDynLabels](datasets/msgpack_dataset.py). 
 Please note, that you can write your own dataset class if you don't want to be constrained to our implementation.
 
-
-## Training from Scratch
-
-See example config files for model and training details.
-```sh
-# supports pytorch lightning trainer flags
-python train.py --config configs/example_s2.yml # baseline: s2(M, f*)
-python train.py --config configs/example_semp.yml # SemP({100, 125, 250})
-```
